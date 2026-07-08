@@ -4,7 +4,7 @@ import { supabase } from '../supabaseClient'
 import Navbar from '../components/Navbar'
 import AvatarUpload from '../components/AvatarUpload'
 
-export default function Profile() {
+export default function Profile({ theme, onToggleTheme }) {
   const { user } = useAuth()
   const [profile, setProfile] = useState(null)
   const [fullName, setFullName] = useState('')
@@ -72,7 +72,7 @@ export default function Profile() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar theme={theme} onToggleTheme={onToggleTheme} />
       <div className="page-container">
         <h2>My Profile</h2>
 
@@ -100,7 +100,7 @@ export default function Profile() {
             onChange={(e) => setBio(e.target.value)}
           />
 
-          <button type="submit" disabled={saving}>
+          <button type="submit" className="btn btn-primary" disabled={saving}>
             {saving ? 'Saving...' : 'Save Changes'}
           </button>
 

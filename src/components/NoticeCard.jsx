@@ -10,7 +10,7 @@ export default function NoticeCard({ notice, currentUserId, onDelete }) {
       <div className="notice-meta">
         <small>{formatDate(notice.created_at)}</small>
         {isOwner && (
-          <button className="link-button" onClick={() => onDelete(notice.id)}>
+          <button className="btn btn-danger" onClick={() => onDelete(notice.id)}>
             Delete
           </button>
         )}

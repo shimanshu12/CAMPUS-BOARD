@@ -87,7 +87,7 @@ export default function Signup() {
           required
         />
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="btn btn-primary" disabled={loading}>
           {loading ? 'Creating account...' : 'Sign Up'}
         </button>
 

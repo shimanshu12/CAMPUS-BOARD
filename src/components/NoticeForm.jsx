@@ -38,7 +38,7 @@ export default function NoticeForm({ onAdd, userId }) {
         onChange={(e) => setContent(e.target.value)}
         rows={3}
       />
-      <button type="submit" disabled={submitting}>
+      <button type="submit" className="btn btn-primary" disabled={submitting}>
         {submitting ? 'Posting...' : 'Post Notice'}
       </button>
     </form>

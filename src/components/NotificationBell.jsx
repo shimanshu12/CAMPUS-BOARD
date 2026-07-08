@@ -13,7 +13,7 @@ export default function NotificationBell({ userId }) {
 
   return (
     <div className="bell-wrapper">
-      <button className="bell-button" onClick={toggleOpen}>
+      <button className="bell-button btn btn-soft" onClick={toggleOpen}>
         🔔 {unreadCount > 0 && <span className="bell-badge">{unreadCount}</span>}
       </button>
 

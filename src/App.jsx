@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './routes/ProtectedRoute'
@@ -8,6 +9,20 @@ import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
 
 export default function App() {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'light'
+    return localStorage.getItem('campusboard-theme') || 'light'
+  })
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem('campusboard-theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((current) => (current === 'light' ? 'dark' : 'light'))
+  }
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -19,7 +34,7 @@ export default function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Dashboard theme={theme} onToggleTheme={toggleTheme} />
               </ProtectedRoute>
             }
           />
@@ -27,7 +42,7 @@ export default function App() {
             path="/profile"
             element={
               <ProtectedRoute>
-                <Profile />
+                <Profile theme={theme} onToggleTheme={toggleTheme} />
               </ProtectedRoute>
             }
           />
