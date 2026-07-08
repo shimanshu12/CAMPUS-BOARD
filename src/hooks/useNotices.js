@@ -21,21 +21,50 @@ export function useNotices() {
   }, [fetchNotices])
 
   const addNotice = async (title, content, userId) => {
-    const { error } = await supabase
-      .from('notices')
-      .insert({ title, content, user_id: userId })
-    return { error }
-  }
+    const { data, error } = await supabase
+      .from("notices")
+      .insert([{ title, content, user_id: userId }])
+      .select()
+      .single();
+  
+    if (!error) {
+      setNotices((prev) => [data, ...prev]);
+    }
+  
+    return { error };
+  };
 
   const deleteNotice = async (id) => {
-    const { error } = await supabase.from('notices').delete().eq('id', id)
-    return { error }
-  }
+    const { error } = await supabase
+      .from("notices")
+      .delete()
+      .eq("id", id);
+  
+    if (!error) {
+      setNotices((prev) => prev.filter((notice) => notice.id !== id));
+    }
+  
+    return { error };
+  };
 
   const updateNotice = async (id, fields) => {
-    const { error } = await supabase.from('notices').update(fields).eq('id', id)
-    return { error }
-  }
+    const { data, error } = await supabase
+      .from("notices")
+      .update(fields)
+      .eq("id", id)
+      .select()
+      .single();
+  
+    if (!error) {
+      setNotices((prev) =>
+        prev.map((notice) =>
+          notice.id === id ? data : notice
+        )
+      );
+    }
+  
+    return { data, error };
+  };
 
   return { notices, setNotices, loading, addNotice, deleteNotice, updateNotice, refetch: fetchNotices }
 }
